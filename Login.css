@@ -1,0 +1,8 @@
+.gradient-custom {
+background: rgb(195,34,164);
+background: linear-gradient(0deg, rgba(195,34,164,1) 0%, rgba(45,234,253,1) 100%);
+background-attachment: scroll;
+}
+.main-container{
+  height: 100%
+}
