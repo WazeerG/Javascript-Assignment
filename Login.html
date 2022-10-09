@@ -23,19 +23,19 @@
 
                 <div class="form-outline form-white mb-4">
                   <label class="form-label" for="typeEmailX">Email</label>
-                  <input type="email" id="typeEmailX" class="form-control form-control-lg" />
+                  <input type="email" id="login-email" class="form-control form-control-lg" />
                 </div>
 
                 <div class="form-outline form-white mb-4">
                   <label class="form-label" for="typePasswordX">Password</label>
-                  <input type="password" id="typePasswordX" class="form-control form-control-lg" />
+                  <input type="password" id="login-password" class="form-control form-control-lg" />
                 </div>
 
-                <button class="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
+                <button id="login-btn" class="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
               </div>
 
               <div>
-                <p class="mb-0">Don't have an account? <a href="register.html" class="text-white-50 fw-bold">Sign Up</a>
+                <p id="reg-btn" class="mb-0">Don't have an account? <a href="register.html" class="text-white-50 fw-bold">Sign Up</a>
                 </p>
               </div>
 
@@ -44,11 +44,14 @@
         </div>
       </div>
     </div>
-    <button type="button" name="button" onclick="TestFunction()"> Test </button>
   </section>
-  <script src="script.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+  <script type="module">
 
+
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+  <script type="module" src="script.js"></script>
 </body>
 
 </html>

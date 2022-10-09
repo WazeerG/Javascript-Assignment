@@ -1,127 +1,97 @@
-function myFunction() {
-  const myFile = new File(['Hello World!'], 'myFile.txt', {
-       type: 'text/plain',
-       lastModified: new Date(),
-   });
-   alert("completed");
-}
+// initialize
+import {
+    initializeApp
+} from 'https://www.gstatic.com/firebasejs/9.6.8/firebase-app.js';
 
-/*var content = getFile('Datafile.csv');
-const myForm = document.getElementById("myForm");
-    const csvFile = opener.OpenTextFile(content, 1, true);
+const firebaseConfig = {
+  apiKey: "AIzaSyByZxHNkJ9vCJ4BydB42Hv_Ah9e-Gthe5A",
+  authDomain: "thecandycentre-1bd85.firebaseapp.com",
+  projectId: "thecandycentre-1bd85",
+  storageBucket: "thecandycentre-1bd85.appspot.com",
+  messagingSenderId: "132364097455",
+  appId: "1:132364097455:web:134e0604f3b43146a2415a"
+};
 
+const firebaseApp = initializeApp(firebaseConfig);
 
+// Add Firebase products that you want to use
+import {
+    getAuth,
+    onAuthStateChanged,
+    signInWithEmailAndPassword,
+    signOut
+} from 'https://www.gstatic.com/firebasejs/9.6.8/firebase-auth.js';
 
-    myForm.addEventListener("submit", function (e) {
-
-      alert(csvFile.files[0]);
-      e.preventDefault();
-      const input = csvFile.files[0];
-      const reader = new FileReader();
-
-      reader.onload = function (e) {
-        const text = e.target.result;
-        document.write(text);
-      };
-
-      reader.readAsText(input);
+import {
+    getFirestore,
+    collection,
+    getDocs,
+    getDoc,
+    doc,
+    setDoc
+} from 'https://www.gstatic.com/firebasejs/9.6.8/firebase-firestore.js';
+import {
+    getStorage,
+    ref,
+    uploadBytesResumable,
+    getDownloadURL,
+    listAll,
+    deleteObject
+} from "https://www.gstatic.com/firebasejs/9.6.8/firebase-storage.js";
+//============================================
+//============================================
+const db = getFirestore();
+const auth = getAuth();
+let UID;
+window.addEventListener('DOMContentLoaded', (event) => {
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            UID = user.uid;
+            //Your code...
+        }
     });
+
+});
+document.getElementById("login-btn").addEventListener('click', function() {
+      const loginEmail = document.getElementById("login-email").value;
+      const loginPassword = document.getElementById("login-password").value;
+    //  const auth = getAuth();
+      signInWithEmailAndPassword(auth, loginEmail, loginPassword).then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          alert("Success");
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          alert(errorMessage);
+        });
+});
+
+
+
+
+
+
+
+
+      /*            document.getElementById("register-btn").addEventListener('click', function() {
+                    const registerEmail = document.getElementById("register-email").value;
+                    const registerPassword = document.getElementById("register-password").value;
+
+                    createUserWithEmailAndPassword(auth, registerEmail, registerPassword)
+                      .then((userCredential) => {
+                          // Signed in
+                          const user = userCredential.user;
+                          document.getElementById("result-box").style.display = "inline";
+                          document.getElementById("register-div").style.display = "none";
+                          document.getElementById("result").innerHTML = "Welcome <br>" + registerEmail + "was Registered Successfully";
+                          firebase.catch((error) => {
+                            const errorCode = error.code;
+                            const errorMessage = error.message;
+                            document.getElementById("result-box").style.display = "inline";
+                            document.getElementById("register-div").style.display = "none";
+                            document.getElementById("result").innerHTML = "Sorry ! <br>+errorMessage";
+                          });
 */
-
-function LoadFile(FileName,RespType,FileType,RunMe)
-{   var AJAXFileReader=new XMLHttpRequest();
-
-    // Creates new progress bar.
-    var ProgressBar=CreateSVGProgBar("ProgressBars");
-
-    AJAXFileReader.addEventListener("progress",
-        function FRProgress(AJAXFREvt)
-        {   // Calculate progress.
-            var X=-1;
-
-            if (AJAXFREvt.lengthComputable)
-                X=Math.trunc(AJAXFREvt.loaded/AJAXFREvt.total*100);
-
-            ShowProgressBar(ProgressBar,FileName,X);
-        });
-
-    AJAXFileReader.addEventListener("error",function FRFailed()
-        {   // This will be executed if an error occurs.
-            console.log("Error:",this.status);
-        });
-
-    AJAXFileReader.addEventListener("timeout",function FRTimeOut()
-        {   // This will be executed if the reading times out.
-            console.log("File reading timed out!");
-        });
-
-    AJAXFileReader.addEventListener("abort",
-        function FRCancel()
-        {   // This will confirm reading was aborted.
-            console.log("File reading cancelled by user!");
-        });
-
-    ProgressBar.addEventListener("click",
-        function KillMe()
-        {   // Adds an abort command to the object.
-            console.log(AJAXFileReader.readyState);
-            if (AJAXFileReader.readyState!=4)
-            {   console.log("Aborting file reading...");
-                AJAXFileReader.abort();
-            }
-            ProgressBar.removeEventListener("click",KillMe);
-        },
-        false);
-
-    AJAXFileReader.addEventListener("load",
-        function Finished()
-        {   // When reading is finished, send data to external function.
-            if ((this.readyState==4)&&(this.status==200))
-            {   ShowProgressBar(ProgressBar,FileName,100);
-                RunMe(this.response);
-                //ProgressBar.click();
-            }
-        },
-        false);
-
-    AJAXFileReader.open("GET",FileName,true);
-    AJAXFileReader.overrideMimeType(FileType);
-    AJAXFileReader.responseType=RespType;
-    AJAXFileReader.timeout=10000; // Setting time-out to 10 s.
-
-    AJAXFileReader.send();
-}
-
-function CreateSVGProgBar(AnchorId)
-{   // Creates new SVG progress bar.
-    var Parent=document.getElementById(AnchorId);
-    var NewSVG=document.createElementNS("http://www.w3.org/2000/svg","svg");
-    NewSVG.setAttribute("viewBox","0 0 102 22");
-    NewSVG.setAttribute("width","102");
-    NewSVG.setAttribute("height","22");
-    Parent.appendChild(NewSVG);
-    return NewSVG;
-}
-
-function ShowProgressBar(E,N,X)
-{   // Show progress bar.
-    var P=X<0?"???":X+"%";
-
-    E.innerHTML="<text x=\"50\" y=\"16\" font-size=\"12\" fill=\"black\" stroke=\"black\" text-anchor=\"middle\">"+N+"</text><rect x=\"1\" y=\"1\" width=\""+X+"\" height=\"20\" fill=\""+(X<100?"#FF0000":"#0000FF")+"\" stroke=\"none\"/><rect x=\"1\" y=\"1\" width=\"100\" height=\"20\" fill=\"none\" stroke=\"black\" stroke-width=\"1\"/><text x=\""+X/2+"\" y=\"16\" font-size=\"12\" fill=\"black\" stroke=\"black\" text-anchor=\"middle\">"+P+"</text>";
-}
-
-function TracerOn(X)
-{   // This will be executed after the file is completely loaded.
-    document.getElementById("Tron").innerHTML=X;
-}
-
-function PlayIt(X)
-{   // This will be executed after the file is completely loaded.
-    var blob_uri=URL.createObjectURL(X);
-    document.getElementById("MagicalBox").appendChild(document.createElement("source")).src=blob_uri;
-}
-
-function Startup()
-{   // Run after the Page is loaded.
-    LoadFile("MyDatafile.txt","text","text/plain;charset=utf-8",TracerOn);
-}
